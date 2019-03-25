@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%;">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/default/easyui.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/icon.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.easyui.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js}"></script>
+</head>
+<body style="overflow: hidden;height: 100%;width: 100%;">
+	<div id="user_datagrid" style="height: 100%;width: 100%;"></div>
+	<script type="text/javascript">
+	$(function(){
+		$('#user_datagrid').datagrid({
+			toolbar: [{
+				iconCls: 'icon-edit',
+				handler: function(){alert('edit')}
+			},'-',{
+				iconCls: 'icon-help',
+				handler: function(){alert('help')}
+			}],
+			striped:true,//隔行变色
+			method:'post',
+			loadMsg:'不要急',
+			pagination:true,//设置为 true，则在数据网格（datagrid）底部显示分页工具栏。
+			pagePosition:'bottom',//定义分页栏的位置。可用的值有：'top'、'bottom'、'both'。
+			rownumbers:true,//显示行号
+			nowrap:true,//不换行
+		    url:'/sys_user/userList',
+		    columns:[ [
+				{field:'usercode',title:'usercode',width:100},
+				{field:'username',title:'username',width:100},
+				{field:'password',title:'password',width:100,align:'right'}
+		    ] ]
+		});
+		
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%;">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.min.js}"></script>
+</head>
+<body>
+	<h1>top!</h1>
+	<!-- 
+	<input id="flag" th:value="${flag}">
+	<input id="sb" class="easyui-switchbutton" style="width:100px;height:25px"> -->
+	<a href="#" onclick="main1()">main1</a>
+	<button onclick="main2()">main2</button>
+<script th:inline="javascript">
+
+function main2(){
+	location.href="/main2";
+}
+function main1(){
+	location.href="/main1";
+}
+/*
+$(function(){
+	var flag=localStorage.getItem("flag");
+	alert("flag="+flag);
+	if(flag==null){
+		flag=true;
+	}
+	$("#sb").switchbutton({
+		onText:'风格11',
+		offText:'风格21',
+		onChange:change,
+		checked:flag
+	});
+	
+	console.log(localStorage.getItem("flag"));
+
+	 if(flag){
+		$("#sb").switchbutton({
+			checked:flag
+		});
+	} 
+});
+function change(options){
+	localStorage.setItem("flag",options);
+	location.href="/main?flag="+options;
+}
+*/
+</script>
+</body>
+</html>

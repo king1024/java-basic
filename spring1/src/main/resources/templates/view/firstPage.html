@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/default/easyui.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/icon.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.easyui.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js}"></script>
+	<style type="text/css">
+		.center{
+			position: absolute;
+			width:400px;
+			height:214px;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			margin: auto;
+			z-index:10;
+			//background-color: #e60012;
+		}
+	</style>
+</head>
+<body style="overflow: hidden;margin: 0;">
+	<img th:src="@{/background.jpeg}" width="100%" height="100%">
+	<div class="center" align="center">
+		<form action="">
+			 <div id="msg"></div>
+			 <a href="#" class="easyui-linkbutton" style="height: 25px;width:80px" onclick="dian()">dian</a>
+			 
+		</form>
+	</div>
+	<script type="text/javascript">
+		var i=1;
+		$("body").keydown(function(){
+			if(event.keyCode == "13"){
+				dian();
+			}
+		});
+		
+		function dian(){
+			$("#msg").html("独孤求败"+ i++ +"号！");		
+		}
+		
+	</script>
+</body>
+</html>

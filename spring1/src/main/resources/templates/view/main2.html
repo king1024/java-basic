@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%;">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/default/easyui.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/icon.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.easyui.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js}"></script>
+	<style type="text/css">
+		.fullFit:{width: 100%;height: 100%;}
+	</style>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false,split:true,href:'/top'" style="height:100px;">
+    	<h3>临冬城：史塔克家族House Stark</h3>
+    </div>
+    <div data-options="region:'south',split:true" style="height:100px;">
+    	<h3>河湾王国（高庭城堡：提利尔家族House Tyrell22222222222222222222222</h3>
+    </div>
+    <div id="mainLayout" data-options="region:'center',title:'中央王国'" style="padding:5px;background:#eee;">
+	    <!-- <div class="easyui-panel" title="Custom Panel Tools" style="width:100%;height:80px;"
+            data-options="iconCls:'icon-save',closable:true,tools:'#mymenu'">
+        </div> -->
+	    <div id="tt" class="easyui-tabs" style="width: 100%;height: 100%;">
+		    <div title="Tab1" style="padding:20px;display:none;">
+				 <table id="dg" style="width: 100%;height: 100%;"></table>
+		    </div>
+		    <div title="Tab2" data-options="closable:true" style="overflow:auto;padding:20px;display:none;">
+				tab2
+		    </div>
+		    <div title="Tab3" data-options="iconCls:'icon-reload',closable:true" style="padding:20px;display:none;">
+				tab3
+		    </div>
+		</div>
+    </div>
+    
+    <div id="mymenu">
+    	<a href="javascript:void(0)" id="mb" class="easyui-menubutton"
+		    data-options="menu:'#mm',iconCls:'icon-edit'">编辑</a>
+		<div id="mm" class="easyui-menu" style="width:120px;">
+		    <div>New</div>
+		    <div>
+				<span>Open</span>
+				<div style="width:150px;">
+					<div><b>Word</b></div>
+					<div>Excel</div>
+					<div>PowerPoint</div>
+				</div>
+		    </div>
+		    <div data-options="iconCls:'icon-save'">Save</div>
+		    <div class="menu-sep"></div>
+		    <div>Exit</div>
+		</div>
+    </div>
+</body>
+<script type="text/javascript">
+var menu="<a href=\"javascript:void(0)\" id=\"mb\" class=\"easyui-menubutton\" data-options=\"menu:\'#mm\',iconCls:\'icon-edit\'\">编辑</a> <div id=\"mm\" class=\"easyui-menu\" style=\"width:120px;\"> <div>New</div> <div>   <span>Open</span>   <div style=\"width:150px;\">    <div><b>Word</b></div>    <div>Excel</div>    <div>PowerPoint</div>   </div> </div> <div data-options=\"iconCls:\'icon-save\'\">Save</div> <div class=\"menu-sep\"></div> <div>Exit</div> </div>";
+$(function(){
+	$('#dg').datagrid({
+		toolbar: [{
+			iconCls: 'icon-edit',
+			handler: function(){alert('edit')}
+		},'-',{
+			iconCls: 'icon-help',
+			handler: function(){alert('help')}
+		}],
+		striped:true,//隔行变色
+		method:'post',
+		loadMsg:'不要急',
+		pagination:true,//设置为 true，则在数据网格（datagrid）底部显示分页工具栏。
+		pagePosition:'bottom',//定义分页栏的位置。可用的值有：'top'、'bottom'、'both'。
+		rownumbers:true,//显示行号
+		nowrap:true,//不换行
+	    url:'/sys_user/userList',
+	    columns:[ [
+			{field:'usercode',title:'usercode',width:100},
+			{field:'username',title:'username',width:100},
+			{field:'password',title:'password',width:100,align:'right'}
+	    ] ]
+	});
+	
+	$('#mymenu').html(menu);
+	
+	$('#tt').tabs('add',{
+	    title:'New Tab',
+	    content:'<iframe scrolling="auto" frameborder="0"  src="/tab2" style="width:100%;height:100%;"></iframe>',
+	    closable:true,
+	    tools:[{
+			iconCls:'icon-mini-refresh',
+			handler:function(){
+				alert('refresh');
+			}
+	    }]
+	});
+});
+</script>
+</html>

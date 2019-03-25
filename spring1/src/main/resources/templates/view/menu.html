@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="width: 100%;height: 100%;">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/default/easyui.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/icon.css}" />
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.easyui.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js}"></script>
+</head>
+<body style="overflow: hidden;">
+	<div id="sm"></div>
+	<script type="text/javascript">
+		//$(function(){
+			$.ajax({ 
+				url: "/sys_permission/menuList", 
+				success: function(data){
+					var res=formatMenuData(data);
+					console.log(res);
+					initMenu(res);
+		      	}
+			});
+		//});
+		function initMenu(datas){
+			 $('#sm').sidemenu({
+		            data: datas,
+		            onSelect : onSideMenuSelect,
+    			 	border:false 
+		     }); 
+		}
+		
+		function formatMenuData(data){
+			var res=[];
+			$.each( data, function( i, v ) {
+				var s={};
+				s.text=v.text;
+				s.iconCls=v.iconCls;
+				s.url=v.url;
+				if(v.children!=null && v.children.length>0){
+					s.children=formatMenuData(v.children);
+				}
+				res.push(s);
+			});
+			return res;
+		}
+	</script>
+</body>
+</html>
