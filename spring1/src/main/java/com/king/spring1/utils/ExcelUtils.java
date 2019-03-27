@@ -40,7 +40,7 @@ public class ExcelUtils {
 			datas.add(temp);
 		}
 		System.out.println(datas.size());
-		System.out.println(writeFile("D:/king2.xls", "我的测试", "第一个sheet", datas));
+		System.out.println(writeFile("D:/king4.xls", "我的测试", "第一个sheet", datas));
 	}
 	
 	public static String writeFile(String pathname,String title,String sheetName,List<List<String>> datas) {
@@ -102,14 +102,30 @@ public class ExcelUtils {
 				sheet.mergeCells(0, 0, datas.get(0).size()-1, 0);
 				n++;
 			}
+			int[] width=new int[datas.get(0).size()];
+			String temp=null;
 			for (int i = 0; i < datas.size(); i++) {
 				for (int j = 0; j < datas.get(i).size(); j++) {
 					WritableCellFormat wformat=new WritableCellFormat(NumberFormats.TEXT);
 					wformat.setAlignment(Alignment.LEFT);
 					wformat.setVerticalAlignment(VerticalAlignment.CENTRE);
-					Label label=new Label(j, i+n, datas.get(i).get(j), wformat);
+					temp=datas.get(i).get(j);
+					if(j%5==2) {
+						temp="测试一下下拉·哈哈哈"+j;
+					}
+					Label label=new Label(j, i+n, temp, wformat);
 					sheet.addCell(label);
+					
+					if(temp==null) {
+						continue;
+					}
+					if(temp.length()*2>width[j]) {
+						width[j]=temp.length()*2;
+					}
 				}
+			}
+			for (int i = 0; i < width.length; i++) {
+				sheet.setColumnView(i, width[i]);
 			}
 			return workbook;
 		} catch (IOException e) {
