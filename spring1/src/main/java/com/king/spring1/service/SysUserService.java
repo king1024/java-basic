@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.king.spring1.mapper.SysUserMapper;
 import com.king.spring1.model.SysUser;
 import com.king.spring1.utils.PageResult;
+import com.king.spring1.utils.SequenceUtil;
 
 /**
  * @author duanyong
@@ -27,26 +27,24 @@ public class SysUserService {
 	}
 	
 	public PageResult<SysUser> findAll(int page,int rows){
-//		List<SysUser> list = sysUserMapper.selectAll();
-//		System.out.println(list.size());
 		PageResult<SysUser> res=new PageResult<>();
-		Page<SysUser> pages= PageHelper.offsetPage(1, 10,true).doSelectPage(() -> sysUserMapper.selectAll());
-//		PageHelper.startPage(page, rows);
-//		Page<SysUser> pages=new Page<>(list);
-//		res.setRows(pages.getResult());
-//		System.out.println(pages.getResult().size());
-//		res.setPage(page);
-//		res.setTotal(pages.getTotal());
-//		return res;
+		Page<SysUser> pages= PageHelper.offsetPage((page-1)*rows, rows,true).doSelectPage(() -> sysUserMapper.selectAll());
 		res.setRows(pages.getResult());
 		res.setTotal(pages.getTotal());
 		return res;
-//		PageHelper.startPage(3, 3);
-//		List<SysUser> list = sysUserMapper.selectAll();
-//		PageInfo<SysUser> res=new PageInfo<>(list);
-//		System.out.println(res);
-//		System.out.println(res.getList());
-//		System.out.println(res.getList().size());
-//		return res.getList();
+	}
+
+	public int addUser(SysUser sysUser) {
+		sysUser.setId(SequenceUtil.createSequence("USER"));
+		sysUser.setSalt("");
+		return sysUserMapper.insert(sysUser);
+	}
+	
+	public int updateUser(SysUser sysUser) {
+		return sysUserMapper.updateByPrimaryKey(sysUser);
+	}
+	
+	public int delUser(String id) {
+		return sysUserMapper.deleteByPrimaryKey(id);
 	}
 }

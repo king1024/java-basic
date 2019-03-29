@@ -1,5 +1,11 @@
 package com.king.spring1.model;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SysUser {
     private String id;
 
@@ -12,6 +18,12 @@ public class SysUser {
     private String salt;
 
     private String locked;
+
+    private String sex;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date birthday;
 
     public String getId() {
         return id;
@@ -59,5 +71,21 @@ public class SysUser {
 
     public void setLocked(String locked) {
         this.locked = locked;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 }

@@ -26,7 +26,7 @@
 <body style="overflow: hidden;margin: 0;">
 	<img th:src="@{/background.jpeg}" width="100%" height="100%">
 	<div class="center" align="center">
-		<form action="/sys_user/login">
+		<form action="/sys_user/login" method="post">
 			 <input class="easyui-textbox" id="usercode" name="usercode" data-options="iconCls:'icon-man',iconAlign:'left',prompt:'请输入用户名'" style="width:200px"><br>
 			 <input class="easyui-passwordbox" id="password" name="password" data-options="iconAlign:'left',prompt:'请输入密码'" style="width:200px"><br>
 			 <div id="msg"></div>

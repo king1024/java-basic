@@ -8,35 +8,338 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/js/jquery-easyui-1.7.0/themes/icon.css}" />
 	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/jquery.easyui.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js}"></script>
+	<style type="text/css">
+		/* .menu-text{
+		    text-align:right;
+		}
+		.datagrid-toolbar table{
+		    float: right;
+		} */
+	</style>
 </head>
 <body style="overflow: hidden;height: 100%;width: 100%;">
-	<div id="user_datagrid" style="height: 100%;width: 100%;"></div>
+	<div id="user_datagrid" style="height: 100%;"></div>
+	
+	 <div id="mydialog" title="新增用户" modal=true  draggable=false class="easyui-dialog" closed=true style="width:300px;">
+			<form id="myform" action="" method="post">
+					<input type="hidden" name="id" value="" />
+					<table>
+						<tr>
+							<td>用户编号:</td>
+							<td><input type="text" id="usercode" name="usercode" class="easyui-validatebox" required=true validType="midLength[4,6]" missingMessage="用户名必填!" invalidMessage="用户名必须在4到6个字符之间!"  value="" /></td>
+						</tr>
+						<tr>
+							<td>用户名:</td>
+							<td><input type="text" id="username" name="username" class="easyui-validatebox" required=true validType="midLength[2,5]" missingMessage="用户名必填!" invalidMessage="用户名必须在2到5个字符之间!"  value="" /></td>
+						</tr>
+						<tr>
+							<td>密码:</td>
+							<td><input type="password" id="password" name="password" class="easyui-validatebox" required=true validType="equalLength[4]" missingMessage="密码必填!" value="" /></td>
+						</tr>
+						<tr>
+							<td>性别:</td>
+							<td>
+								男<input type="radio" checked="checked" name="sex" value="1" />
+								女<input type="radio" name="sex" value="0" />
+							</td>
+						</tr>
+						<tr>
+							<td>出生日期:</td>
+							<td><input id="birthday" style="width:160px;"  type="text" name="birthday" value="" /></td>
+						</tr>
+						<!-- 
+						<tr>
+							<td>所属城市:</td>
+							<td>
+								<input name="city" class="easyui-combobox" url="UserServlet?method=getCity" valueField="id" textField="name"  value="" />
+							</td>
+						</tr>
+						</tr>   
+						<tr>
+							<td>个人描述:</td>
+							<td><input type="text" name="description" class="easyui-validatebox" required=true validType="midLength[5,50]" missingMessage="个人描述必填!" invalidMessage="描述必须在5到50个字符之间!"  value="" /></td>
+						</tr>  
+						-->
+						<tr align="center">
+							<td colspan="2">
+								<a id="btn1" class="easyui-linkbutton">保存</a>
+								<a id="btn2" class="easyui-linkbutton">取消</a>
+							</td>
+						</tr>   					 					    					    					    					    					    					    					    					
+					</table>
+			</form> 			
+	 </div>
+	
 	<script type="text/javascript">
 	$(function(){
-		$('#user_datagrid').datagrid({
-			toolbar: [{
-				iconCls: 'icon-edit',
-				handler: function(){alert('edit')}
-			},'-',{
-				iconCls: 'icon-help',
-				handler: function(){alert('help')}
-			}],
-			striped:true,//隔行变色
-			method:'post',
-			loadMsg:'不要急',
-			pagination:true,//设置为 true，则在数据网格（datagrid）底部显示分页工具栏。
-			pagePosition:'bottom',//定义分页栏的位置。可用的值有：'top'、'bottom'、'both'。
-			rownumbers:true,//显示行号
-			nowrap:true,//不换行
-		    url:'/sys_user/userList',
-		    columns:[ [
-				{field:'usercode',title:'usercode',width:100},
-				{field:'username',title:'username',width:100},
-				{field:'password',title:'password',width:100,align:'right'}
-		    ] ]
+		//日期组件
+		$('#birthday').datebox({
+			required:true , 
+			missingMessage:'生日必填!' ,
+			editable:false
 		});
 		
+		/* 
+		$('#salary').numberbox({
+			min:1000 , 
+			max:20000 ,
+			required:true , 
+			missingMessage:'薪水必填!' ,
+			precision:2
+		}); 
+		*/
+		var flag="";
+		$('#user_datagrid').datagrid({
+			idField:'id' ,	
+			striped:true,//隔行变色
+			method:'post',
+			loadMsg: '数据正在加载,请耐心的等待...' ,
+			rownumbers:true,//显示行号
+			nowrap:true,//不换行
+			fit:true,
+			fitColumns:true,//设置为 true，则会自动扩大或缩小列的尺寸以适应网格的宽度并且防止水平滚动
+			checkbox:true,
+			//selectOnCheck:true,//如果设置为 true，当用户点击某一行时，则会选中/取消选中复选框。如果设置为 false 时，只有当用户点击了复选框时，才会选中/取消选中复选框。
+			//checkOnSelect:true,//如果设置为 true，点击复选框将会选中该行。如果设置为 false，选中该行将不会选中复选框。
+			singleSelect:true,//设置为 true，则只允许选中一行。 
+		    url:'/sys_user/userList',
+		  	//singleSelect:true ,				//单选模式 
+			//remoteSort: false ,//启用本地排序
+			//sortName: 'usercode' ,//按照薪水排序
+			//sortOrder: 'desc' ,//降序排序
+		    /* rowStyler: function(index ,record){//当年龄大于25岁,颜色标红
+				 if(record.sex == 0){
+					 return "background:red";
+				 }
+			} , */
+		    columns:[ [
+		    	{field:'ck',checkbox:true},
+				{field:'id',title:'id', hidden:true},
+				{field:'usercode',title:'usercode', width:100},
+				{field:'username',title:'username', width:100},
+				{field:'password',title:'password',align:'right', width:100},
+				{
+					field:'sex' , 
+					title:'性别' ,
+					width:50 ,
+					formatter:function(value , record , index){
+							if(value == 1){
+								return '<span style=color:red; >男</span>' ;
+							} else if( value == 0){
+								return '<span style=color:green; >女</span>' ; 
+							}
+					}
+				},
+				{field:'birthday',title:'生日', width:100}
+		    ] ],
+		    toolbar://工具栏
+				[
+					{
+						text:'查询用户' , 
+						iconCls:'icon-search' , 
+						handler:function(){
+							        //设置指定面板折叠
+					        		//$("#box").layout("collapse","north");
+					        		//设置指定面板展开
+					       			 //$("#box").layout("expand","north");
+							
+								$('#lay').layout('expand' , 'north');
+								
+						}
+					},'-', {
+						text:'新增用户' ,
+						iconCls:'icon-add' , 
+						handler:function(){//触发时间
+							flag = 'add';
+							$('#mydialog').dialog({
+									title:'新增用户' 
+							});
+							//以下是三种清空表单的方式
+							//$('#myform').find('input[name!=sex]').val("");
+							$('#myform').get(0).reset();//清空对话框中的信息
+							//$('#myform').form('clear');
+							$('#mydialog').dialog('open');//打开对话框
+						
+						}
+						
+					},'-',{
+						text:'修改用户' ,
+						iconCls:'icon-edit' , 
+						handler:function(){
+							flag = 'edit';
+							var arr =$('#user_datagrid').datagrid('getSelections');//api中固定的写法
+							if(arr.length <=0){
+								$.messager.show({
+									title:'提示信息!',
+									msg:'至少选择一行记录进行删除!'
+								});
+							} 
+							if(arr.length >1) {
+								$.messager.show({
+									title:'提示信息!',
+									msg:'仅可选一行记录进行删除!'
+								});
+							}
+							if(arr.length ==1) {
+							
+								$('#mydialog').dialog({
+									title:'修改用户'
+								});
+								$('#mydialog').dialog('open'); //打开窗口
+								$('#myform').get(0).reset();   //清空表单数据 
+								//表单数据回显
+								$('#myform').form('load',{	   //调用load方法把所选中的数据load到表单中,非常方便
+									id:arr[0].id ,
+									usercode:arr[0].usercode ,
+									username:arr[0].username ,
+									password:arr[0].password ,
+									sex:arr[0].sex ,
+									birthday:arr[0].birthday 
+									/* city:arr[0].city ,
+									salary:arr[0].salary ,
+									startTime:arr[0].startTime,
+									endTime:arr[0].endTime ,
+									description:arr[0].description */
+								});
+							} 
+						
+						}
+					},'-',{
+						text:'删除用户' ,
+						iconCls:'icon-remove' , 
+						handler:function(){
+							var arr =$('#user_datagrid').datagrid('getSelections');
+							if(arr.length <=0){
+								$.messager.show({
+									title:'提示信息!',
+									msg:'至少选择一行记录进行删除!'
+								});
+							} 
+							if(arr.length >1) {
+								$.messager.show({
+									title:'提示信息!',
+									msg:'仅可选一行记录进行删除!'
+								});
+							}
+							if(arr.length ==1) {
+								removeUser(arr[0].id);
+							}
+							/*
+							if(arr.length <=0){
+									$.messager.show({
+										title:'提示信息!',
+										msg:'至少选择一行记录进行删除!'
+									});
+								} else {
+									
+									$.messager.confirm('提示信息' , '确认删除?' , function(r){
+											if(r){
+													var ids = '';
+													for(var i =0 ;i<arr.length;i++){
+														ids += arr[i].id + ',' ;
+													}
+													ids = ids.substring(0 , ids.length-1);
+													$.post('UserServlet?method=delete' , {ids:ids} , function(result){
+														//1 刷新数据表格 
+														$('#t_user').datagrid('reload');
+														//2 清空idField   ------此语句很重要
+														$('#t_user').datagrid('unselectAll');
+														//3 给提示信息 
+														$.messager.show({
+															title:'提示信息!' , 
+															msg:'操作成功!'
+														});
+													});
+											} else {
+												return ;
+											}
+									});
+								}
+							*/
+						}								
+					}
+				],
+				pagination:true,//设置为 true，则在数据网格（datagrid）底部显示分页工具栏。
+				pagePosition:'bottom',//定义分页栏的位置。可用的值有：'top'、'bottom'、'both'。
+				pageSize: 10 ,//每页显示10条记录
+				pageList:[5,10,15,20,50]
+		});
+		
+		/**
+		 *  提交表单方法
+		 */
+		$('#btn1').click(function(){
+			var toUrl="";
+			switch(flag) {
+				case "add":
+					toUrl="/sys_user/addUser";
+				  	break;
+				case "edit":
+					toUrl="/sys_user/updateUser";
+				  	break;
+				default:
+					$.meesager.show({
+						title:result , 
+						msg:"貌似有点小问题"
+					});
+					return;
+			}
+				if($('#myform').form('validate')){//表单检验成功
+					$.ajax({
+						type: 'post' ,
+						url: toUrl ,
+						cache:false ,
+						data:$('#myform').serialize() ,
+						dataType:'json' ,
+						success:function(result){
+							//1 关闭窗口
+							$('#mydialog').dialog('close');
+							//2刷新datagrid
+							//注意跟$('#t_user').datagrid('load');的区别
+							//load刷新页面会永远保持在第一页,reload会刷新后保持在当前页
+							$('#user_datagrid').datagrid('reload');
+						} ,
+						error:function(result){
+							$.meesager.show({
+								title:result , 
+								msg:"nonononono"
+							});
+						}
+					});
+				} else {
+					$.messager.show({
+						title:'提示信息!' ,
+						msg:'数据验证不通过,不能保存!'
+					});
+				}
+		});
+		
+		/**
+		 * 关闭窗口方法
+		 */
+		$('#btn2').click(function(){
+			$('#mydialog').dialog('close');
+		});
 	});
+	
+	function removeUser(delId){
+		$.ajax({
+			type:"POST",
+			url:"/sys_user/delUser",
+			data:{'id':delId},	
+			success:function(res){
+				if(res==1){
+					$('#user_datagrid').datagrid('reload');
+				}else{
+					$.messager.show({
+						title:'提示信息!' ,
+						msg:'删除失败!'
+					});
+				}
+			}
+		});
+	}
+	
 	</script>
 </body>
 </html>

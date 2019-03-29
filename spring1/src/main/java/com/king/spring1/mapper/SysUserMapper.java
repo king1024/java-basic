@@ -9,10 +9,10 @@ public interface SysUserMapper {
     int insert(SysUser record);
 
     SysUser selectByPrimaryKey(String id);
-
+    
     List<SysUser> selectAll();
+    
+    List<SysUser> selectUser(SysUser sysUser);
 
     int updateByPrimaryKey(SysUser record);
-
-    List<SysUser> selectUser(SysUser record);
 }

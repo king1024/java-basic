@@ -31,13 +31,13 @@
           
         <!-- 生成实体类的地址 -->  
         <javaModelGenerator targetPackage="com.king.spring1.model"  
-            targetProject="E:\eclipse-workspace\spring1\src\main\java" />  
-        <!-- 生成mapper.xml文件   E:\eclipse-workspace\spring1\src\main\java\com\king\spring1\mapper-->  
+            targetProject="E:\Git\spring1\src\main\java" />  
+        <!-- 生成mapper.xml文件   E:\Git\spring1\src\main\java\mapper-->  
         <sqlMapGenerator targetPackage="com.king.spring1.mapper"  
-            targetProject="E:\eclipse-workspace\spring1\src\main\java" />  
+            targetProject="E:\Git\spring1\src\main\java" />  
         <!-- 生成mapxml对应的client 也就是接口dao -->  
         <javaClientGenerator targetPackage="com.king.spring1.mapper"  
-            targetProject="E:\eclipse-workspace\spring1\src\main\java" type="XMLMAPPER" />  
+            targetProject="E:\Git\spring1\src\main\java" type="XMLMAPPER" />  
         <!--     
         <table schema="test" tableName="tb_department"  domainObjectName="Department" enableCountByExample="false"    
             enableDeleteByExample="false" enableSelectByExample="false"    
@@ -45,7 +45,7 @@
              domainObjectName  指定生成的类的名字  
         </table>  
          -->
-        <table tableName="sys_permission"
-            domainObjectName="SysPermission"></table>
+        <table tableName="sys_user" domainObjectName="SysUser"></table>
+        <table tableName="sys_permission" domainObjectName="SysPermission"></table>
     </context>  
 </generatorConfiguration>
