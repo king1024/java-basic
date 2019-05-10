@@ -21,9 +21,8 @@ public class SysUserService {
 	@Autowired
 	private SysUserMapper sysUserMapper;
 
-	public int login(SysUser sysUser){
-		List<SysUser> users = sysUserMapper.selectUser(sysUser);
-		return users.size();
+	public List<SysUser> findUser(SysUser sysUser){
+		return sysUserMapper.selectUser(sysUser);
 	}
 	
 	public PageResult<SysUser> findAll(int page,int rows){
@@ -43,8 +42,12 @@ public class SysUserService {
 	public int updateUser(SysUser sysUser) {
 		return sysUserMapper.updateByPrimaryKey(sysUser);
 	}
-	
+
 	public int delUser(String id) {
 		return sysUserMapper.deleteByPrimaryKey(id);
+	}
+	
+	public SysUser findUserById(String id) {
+		return sysUserMapper.selectByPrimaryKey(id);
 	}
 }

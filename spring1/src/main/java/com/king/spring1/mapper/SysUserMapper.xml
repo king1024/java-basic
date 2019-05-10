@@ -58,29 +58,33 @@
     select id, usercode, username, password, salt, locked, sex, birthday
     from sys_user
     where 1=1
-    <if test="id">
+    <if test="id != null and id != ''">
     	and id=#{id}
     </if>
-    <if test="usercode">
+    <if test="usercode != null and usercode != ''">
     	and usercode=#{usercode}
     </if>
-    <if test="username">
+    <if test="username != null and username != ''">
     	and username=#{username}
     </if>
-    <if test="password">
+    <if test="password != null and password != ''">
     	and password=#{password}
     </if>
-    <if test="locked">
+    <if test="locked != null and locked != ''">
     	and locked=#{locked}
     </if>
-    <if test="salt">
+    <if test="salt != null and salt != ''">
     	and salt=#{salt}
     </if>
-    <if test="sex">
+    <if test="sex != null and sex != ''">
     	and sex=#{sex}
     </if>
-    <if test="id">
+    <if test="birthday != null">
     	and birthday=#{birthday}
     </if>
+  </select>
+  
+  <select id="getPassword" resultType="java.lang.String" parameterType="java.lang.String" >
+    select password from sys_user where username = #{userName}
   </select>
 </mapper>

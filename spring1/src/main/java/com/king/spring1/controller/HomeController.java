@@ -1,5 +1,8 @@
 package com.king.spring1.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,7 @@ public class HomeController {
 	
 	@RequestMapping("/loginPage")
 	public String loginPage() {
+		System.out.println("controller-----------------/loginPage");
 		return "login";
 	}
 
@@ -57,5 +61,12 @@ public class HomeController {
 	@RequestMapping("/userList")
 	public String userList() {
 		return "user/userList";
+	}
+	
+	@RequestMapping("/loginOut")
+	public String loginOut(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "login";
 	}
 }

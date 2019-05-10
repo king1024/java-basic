@@ -16,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /*
   https://www.cnblogs.com/whgk/p/5326568.html
@@ -77,20 +78,25 @@ public class BaiscIO {
 	public static String filePath="E:\\data.txt";
 	
 	public static void main(String[] args) throws UnsupportedEncodingException, IOException {
+		Date d1=new Date();
+		System.out.println(d1);
 //		byteFile();
-//		bufferedStream();
+		bufferedStream();
 //		streamER();
 //		lineIO();
-		lineIO2();
+//		lineIO2();
+		Date d2=new Date();
+		System.out.println(d2);
+		System.out.println((d2.getTime()-d1.getTime()));
 	}
 	
 	//InputStream、OutputStream（字节流） 
 	public static void byteFile() {
 		try {
 			//读取文件(字节流)
-			InputStream in = new FileInputStream("E:\\data.txt");
+			InputStream in = new FileInputStream("F:\\Download\\BaiDuYun\\video.zip");
 			//写入相应的文件
-			OutputStream out = new FileOutputStream("E:\\data2.txt");
+			OutputStream out = new FileOutputStream("E:\\video22.zip");
 			//读取数据
 			//一次性取多少字节
 			byte[] bytes = new byte[2048];
@@ -99,8 +105,8 @@ public class BaiscIO {
 			//循环取出数据
 			while ((n = in.read(bytes,0,bytes.length)) != -1) {
 			    //转换成字符串
-			    String str = new String(bytes,0,n,"GBK"); //这里可以实现字节到字符串的转换，比较实用
-			    System.out.println(str);
+			    //String str = new String(bytes,0,n,"GBK"); //这里可以实现字节到字符串的转换，比较实用
+			    //System.out.println(str);
 			    //写入相关文件
 			    out.write(bytes, 0, n);
 			}
@@ -122,19 +128,20 @@ public class BaiscIO {
 	//BufferedInputStream、BufferedOutputStream（缓存字节流）使用方式和字节流差不多，但是效率更高（推荐使用）
 	public static void bufferedStream() throws UnsupportedEncodingException, IOException {
 		//读取文件(缓存字节流)
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream("E:\\data.txt"));
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream("F:/乱七八糟/qq.mp3"));
         //写入相应的文件
-        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("E:\\data21.txt"));
+        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("E:/qq2.mp3"));
         //读取数据
         //一次性取多少字节
-        byte[] bytes = new byte[2048];
+        byte[] bytes = new byte[4096];
         //接受读取的内容(n就代表的相关数据，只不过是数字的形式)
         int n = -1;
         //循环取出数据
         while ((n = in.read(bytes,0,bytes.length)) != -1) {
+//        while ((n = in.read()) != -1) {
             //转换成字符串
-            String str = new String(bytes,0,n,"GBK");
-            System.out.println(str);
+//            String str = new String(bytes,0,n,"GBK");
+//            System.out.println(str);
             //写入相关文件
             out.write(bytes, 0, n);
         }

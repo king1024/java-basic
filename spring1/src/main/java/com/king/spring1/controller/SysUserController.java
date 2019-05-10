@@ -1,5 +1,10 @@
 package com.king.spring1.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,10 +29,13 @@ public class SysUserController {
 	private SysUserService sysUserService;
 
 	@RequestMapping("/login")
-	public String login(SysUser sysUser,Model model) {
-		int status = sysUserService.login(sysUser);
-		System.out.println("login res="+status);
+	public String login(SysUser sysUser,Model model,HttpServletRequest request) {
+		List<SysUser> users = sysUserService.findUser(sysUser);
+		int status=users.size();
 		if (status==1) {
+			HttpSession session = request.getSession();
+			session.setAttribute("user", users.get(0));
+			SysUser user = (SysUser) session.getAttribute("user");
 			return "main";
 		}else if(status==0) {
 			model.addAttribute("sysUser", sysUser);
